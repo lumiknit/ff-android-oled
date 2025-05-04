@@ -6,7 +6,7 @@
 # From builder (org/mozilla/geckoview/GeckoRuntimeSettings$Builder.smali)
 # Find public aboutConfigEnabled(Z)
 
-sm1="smali_classes1/org/mozilla/geckoview/GeckoRuntimeSettings\$Builder.smali"
+sm1="smali/org/mozilla/geckoview/GeckoRuntimeSettings\$Builder.smali"
 sm2="smali_classes2/org/mozilla/geckoview/GeckoRuntimeSettings\$Builder.smali"
 sm3="smali_classes3/org/mozilla/geckoview/GeckoRuntimeSettings\$Builder.smali"
 sm4="smali_classes4/org/mozilla/geckoview/GeckoRuntimeSettings\$Builder.smali"
