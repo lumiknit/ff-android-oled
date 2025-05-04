@@ -88,7 +88,7 @@ jobs:
         id: last
         run: |-
           tgt=${{ steps.guess_version.outputs.target_version }}
-          echo "apk_url=https://archive.mozilla.org/pub/fenix/releases/${tgt}/android/fenix-${tgt}.multi.android-arm64-v8a.apk" >> $GITHUB_OUTPUT
+          echo "apk_url=https://archive.mozilla.org/pub/fenix/releases/${tgt}/android/fenix-${tgt}-android-arm64-v8a/fenix-${tgt}.multi.android-arm64-v8a.apk" >> $GITHUB_OUTPUT
           echo "tag=$tgt" >> $GITHUB_OUTPUT
 
   build:
