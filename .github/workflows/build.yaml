@@ -36,11 +36,11 @@ jobs:
       - name: Guess Target Version
         id: guess_version
         run: |-
-          target_version=${steps.check_updates.outputs.input_version}
+          target_version=${{ steps.check_updates.outputs.input_version }}
 
           # If input version is not provided, from the tag name, guess the next version
           if [ -z "$target_version" ]; then
-            latest_tag=${steps.check_updates.outputs.latest_tag}
+            latest_tag=${{ steps.check_updates.outputs.latest_tag }}
             # Minor increment
             VERSION_PARTS=(${latest_tag//./ })
             NEXT_MINOR="$(VERSION_PARTS[0]).$((${VERSION_PARTS[1]} + 1))"
@@ -71,7 +71,7 @@ jobs:
         id: check_releases
         run: |-
           # Check if that 'target_version' already exists in the releases
-          target_version=${steps.guess_version.outputs.target_version}
+          target_version=${{ steps.guess_version.outputs.target_version }}
           echo "[INFO] Target Version: $target_version"
           tag_exists=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/tags" \
