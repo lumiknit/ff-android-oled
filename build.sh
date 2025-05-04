@@ -7,14 +7,20 @@ wget -q https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.11.1.jar -
 java -jar apktool.jar d ff.apk -o ff-extracted  # -s flag removed
 rm -rf ff-extracted/META-INF
 
-# Color patching
-sed -i 's/<color name="fx_mobile_layer_color_1">.*/<color name="fx_mobile_layer_color_1">#ff000000<\/color>/g' ff-extracted/res/values-night/colors.xml
-sed -i 's/<color name="fx_mobile_layer_color_2">.*/<color name="fx_mobile_layer_color_2">@color\/photonDarkGrey90<\/color>/g' ff-extracted/res/values-night/colors.xml
+pushd ff-extracted
 
-# Smali patching
-sed -i 's/ff2b2a33/ff000000/g' ff-extracted/smali_classes2/mozilla/components/ui/colors/PhotonColors.smali
-sed -i 's/ff42414d/ff15141a/g' ff-extracted/smali_classes2/mozilla/components/ui/colors/PhotonColors.smali
-sed -i 's/ff52525e/ff15141a/g' ff-extracted/smali_classes2/mozilla/components/ui/colors/PhotonColors.smali
+function patch() {
+	local name="$1"
+	echo "[INFO] Patching $name"
+	. "$name"
+}
+
+patch ../patches/0000-black.sh
+patch ../patches/0001-rm-telemetry-ext.sh
+patch ../patches/0002-nav-layout.sh
+patch ../patches/0003-about-config.sh
+
+popd
 
 # Recompile the APK
 java -jar apktool.jar b ff-extracted -o ff-patched.apk --use-aapt2

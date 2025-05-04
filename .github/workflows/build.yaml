@@ -2,7 +2,7 @@ name: Firefox OLED Build
 
 on:
   schedule:
-    - cron: "12 3 * * 4" # Tweaked time
+    - cron: "12 3 * * 0" # Tweaked time
   workflow_dispatch:
     inputs:
       version:
