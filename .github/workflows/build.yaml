@@ -128,9 +128,11 @@ jobs:
             ff-${{ needs.check-update.outputs.tag }}-oled.apk
 
       - name: Create release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.check-update.outputs.tag }}
           files: ff-${{ needs.check-update.outputs.tag }}-oled.apk
+          body: |
+            ## Firefix patched: v${{ needs.check-update.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
