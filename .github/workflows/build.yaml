@@ -13,7 +13,7 @@ jobs:
   check-update:
     runs-on: ubuntu-latest
     outputs:
-      new_version_available: ${{ steps.version_check.outputs.new_version }}
+      new_version_available: ${{ steps.check_releases.outputs.new_version }}
       tag: ${{ steps.last.outputs.tag }}
       apk_url: ${{ steps.last.outputs.apk_url }}
     steps:
