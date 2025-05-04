@@ -79,9 +79,9 @@ jobs:
             'any(.[].name == $tag; .)')
           echo "[INFO] Tag Exists: $tag_exists"
           if [ "$tag_exists" == "true" ]; then
-            echo "new_version_available=false" >> $GITHUB_OUTPUT
+            echo "new_version=false" >> $GITHUB_OUTPUT
           else
-            echo "new_version_available=true" >> $GITHUB_OUTPUT
+            echo "new_version=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Get required variables
