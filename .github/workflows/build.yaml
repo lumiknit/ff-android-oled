@@ -44,10 +44,9 @@ jobs:
           # If input version is not provided, from the tag name, guess the next version
           if [ -z "$target_version" ]; then
             latest_tag=${{ steps.check_updates.outputs.latest_tag }}
-            # Minor increment
-            VERSION_PARTS=(${latest_tag//./ })
-            NEXT_MINOR="$(VERSION_PARTS[0]).$((${VERSION_PARTS[1]} + 1))"
-            NEXT_MAJOR="$((${VERSION_PARTS[0]} + 1)).0"
+            IFS='.' read -r major minor patch <<< "${latest_tag#v}"
+            NEXT_MINOR="$major.$(($minor + 1))"
+            NEXT_MAJOR="$(($major + 1)).0"
 
             # Check if the next major version is available
             status_code=$(curl -s -o /dev/null -w "%{http_code}" \
@@ -64,6 +63,7 @@ jobs:
                 target_version=$NEXT_MINOR
               else
                 echo "No new version available. Quit".
+                exit 1
               fi
             fi
           fi
