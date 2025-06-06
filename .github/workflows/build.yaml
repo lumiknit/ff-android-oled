@@ -43,29 +43,9 @@ jobs:
 
           # If input version is not provided, from the tag name, guess the next version
           if [ -z "$target_version" ]; then
-            latest_tag=${{ steps.check_updates.outputs.latest_tag }}
-            IFS='.' read -r major minor patch <<< "${latest_tag#v}"
-            NEXT_MINOR="$major.$(($minor + 1))"
-            NEXT_MAJOR="$(($major + 1)).0"
-
-            # Check if the next major version is available
-            status_code=$(curl -s -o /dev/null -w "%{http_code}" \
-              "https://archive.mozilla.org/pub/fenix/releases/$NEXT_MAJOR/android/fenix-${NEXT_MAJOR}-android-arm64-v8a/")
-            if [ "$status_code" -lt 400 ]; then
-              echo "[INFO] NEXT_MAJOR: $NEXT_MAJOR is available"
-              target_version=$NEXT_MAJOR
-            else
-              # Check if the next minor version is available
-              status_code=$(curl -s -o /dev/null -w "%{http_code}" \
-                "https://archive.mozilla.org/pub/fenix/releases/$NEXT_MINOR/android/fenix-${NEXT_MINOR}-android-arm64-v8a/")
-              if [ "$status_code" -lt 400 ]; then
-                echo "Next minor version available: $NEXT_MINOR"
-                target_version=$NEXT_MINOR
-              else
-                echo "No new version available. Quit".
-                exit 1
-              fi
-            fi
+            ruby ./scripts/get_latest_ff.rb
+            latest_ver="$(cat latest_ff.out)"
+            target_version=${{ steps.check_updates.outputs.latest_tag }}
           fi
 
           echo "target_version=$target_version" >> $GITHUB_OUTPUT
