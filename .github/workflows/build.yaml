@@ -20,6 +20,8 @@ jobs:
       tag: ${{ steps.last.outputs.tag }}
       apk_url: ${{ steps.last.outputs.apk_url }}
     steps:
+      - uses: actions/checkout@v4
+
       - name: Check for updates
         id: check_updates
         run: |-
@@ -44,8 +46,7 @@ jobs:
           # If input version is not provided, from the tag name, guess the next version
           if [ -z "$target_version" ]; then
             ruby ./scripts/get_latest_ff.rb
-            latest_ver="$(cat latest_ff.out)"
-            target_version=${{ steps.check_updates.outputs.latest_tag }}
+            target_version="$(cat latest_ff.out)"
           fi
 
           echo "target_version=$target_version" >> $GITHUB_OUTPUT
